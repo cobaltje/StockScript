@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>INSPINIA | Main view</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+    <link href="css/animate.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div id="wrapper">
+      <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+          <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+              <div class="dropdown profile-element">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                  <span class="block m-t-xs font-bold">Timothy Vinckier</span>
+                  <span class="text-muted text-xs block">menu <b class="caret"></b></span>
+                </a>
+                <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                  <li><a class="dropdown-item" href="login.html">Logout</a></li>
+                </ul>
+              </div>
+              <div class="logo-element">IN+</div>
+            </li>
+            <li class="active">
+              <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Product Overview</span></a>
+            </li>
+            <li>
+              <a href="minor.html"
+                ><i class="fa fa-th-large"></i>
+                <span class="nav-label">Minor view</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div id="page-wrapper" class="gray-bg">
+        <div class="row border-bottom">
+          <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+              <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i> </a>
+              <form role="search" class="navbar-form-custom" method="post" action="#">
+                <div class="form-group">
+                  <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search" />
+                </div>
+              </form>
+            </div>
+            <ul class="nav navbar-top-links navbar-right">
+              <li>
+                <a href="#"> <i class="fa fa-sign-out"></i> Log out </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="text-center m-t-lg">
+                <div id="liveAlertPlaceholder"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title">
+              <h5>Product List</h5>
+              <div class="ibox-tools">
+                <a class="collapse-link" href="">
+                  <i class="fa fa-chevron-up"></i>
+                </a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                  <i class="fa fa-wrench"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                  <li><a data-toggle="modal" data-target="#myModal4">Add product</a></li>
+                </ul>
+                <a class="close-link" href="">
+                  <i class="fa fa-times"></i>
+                </a>
+              </div>
+            </div>
+            <div class="ibox-content">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Product</th>
+                      <th>Location</th>
+                      <th style="text-align: center">In Stock</th>
+                      <th style="text-align: center">Min Stock</th>
+                      <th style="text-align: center">Max Stock</th>
+                      <th style="text-align: right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="addProductPlaceholder">
+                    <tr>
+                      <th id="productId1" scope="row"></th>
+                      <td id="productName1" scope="row"></td>
+                      <td id="productLocation1" scope="row"></td>
+                      <td id="productStock1" scope="row" style="text-align: center"></td>
+                      <td id="productMinStock1" scope="row" style="text-align: center"></td>
+                      <td id="productMaxStock1" scope="row" style="text-align: center"></td>
+                      <td id="productButtons1" scope="row" style="text-align: right">
+                        <button id="addStockButton" type="button" class="btn btn-primary btn-sm dim" onclick="addStock(0)">
+                          <i class="fa fa-plus-square modal-icon"></i> Add Stock
+                        </button>
+                        <button id="removeStockButton" type="button" class="btn btn-danger btn-sm dim" onclick="removeStock(0)">
+                          <i class="fa fa-minus-square modal-icon"></i> Remove Stock
+                        </button>
+                        <button id="editProductButton" type="button" class="btn btn-info btn-sm dim" onclick="editProduct(0)">
+                          <i class="fa fa-pencil modal-icon"></i> Edit Product
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th id="productId2" scope="row"></th>
+                      <td id="productName2" scope="row"></td>
+                      <td id="productLocation2" scope="row"></td>
+                      <td id="productStock2" scope="row" style="text-align: center"></td>
+                      <td id="productMinStock2" scope="row" style="text-align: center"></td>
+                      <td id="productMaxStock2" scope="row" style="text-align: center"></td>
+                      <td id="productButtons2" scope="row" style="text-align: right">
+                        <button id="addStockButton" type="button" class="btn btn-primary btn-sm dim" onclick="addStock(1)">
+                          <i class="fa fa-plus-square modal-icon"></i> Add Stock</button
+                        ><a> </a
+                        ><button id="removeStockButton" type="button" class="btn btn-danger btn-sm dim" onclick="removeStock(1)">
+                          <i class="fa fa-minus-square modal-icon"></i> Remove Stock
+                        </button>
+                        <button id="editProductButton" type="button" class="btn btn-info btn-sm dim" onclick="editProduct(1)">
+                          <i class="fa fa-pencil modal-icon"></i> Edit Product
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th id="productId3" scope="row"></th>
+                      <td id="productName3" scope="row"></td>
+                      <td id="productLocation3" scope="row"></td>
+                      <td id="productStock3" scope="row" style="text-align: center"></td>
+                      <td id="productMinStock3" scope="row" style="text-align: center"></td>
+                      <td id="productMaxStock3" scope="row" style="text-align: center"></td>
+                      <td id="productButtons3" scope="row" style="text-align: right">
+                        <button id="addStockButton" type="button" class="btn btn-primary btn-sm dim" onclick="addStock(2)">
+                          <i class="fa fa-plus-square modal-icon"></i> Add Stock</button
+                        ><a> </a>
+                        <button id="removeStockButton" type="button" class="btn btn-danger btn-sm dim" onclick="removeStock(2)">
+                          <i class="fa fa-minus-square modal-icon"></i> Remove Stock
+                        </button>
+                        <button id="editProductButton" type="button" class="btn btn-info btn-sm dim" onclick="editProduct(2)">
+                          <i class="fa fa-pencil modal-icon"></i> Edit Product
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th id="productId4" scope="row"></th>
+                      <td id="productName4" scope="row"></td>
+                      <td id="productLocation4" scope="row"></td>
+                      <td id="productStock4" scope="row" style="text-align: center"></td>
+                      <td id="productMinStock4" scope="row" style="text-align: center"></td>
+                      <td id="productMaxStock4" scope="row" style="text-align: center"></td>
+
+                      <td id="productButtons4" scope="row" style="text-align: right">
+                        <button id="addStockButton" type="button" class="btn btn-primary btn-sm dim" onclick="addStock(3)">
+                          <i class="fa fa-plus-square modal-icon"></i> Add Stock
+                        </button>
+                        <button id="removeStockButton" type="button" class="btn btn-danger btn-sm dim" onclick="removeStock(3)">
+                          <i class="fa fa-minus-square modal-icon"></i> Remove Stock
+                        </button>
+                        <button id="editProductButton" type="button" class="btn btn-info btn-sm dim" onclick="editProduct(3)">
+                          <i class="fa fa-pencil modal-icon"></i> Edit Product
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <button type="button" class="btn btn-primary btn-sm dim" data-toggle="modal" data-target="#myModal4">Add new product</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          <div class="pull-right">10GB of <strong>250GB</strong> Free.</div>
+          <div>
+            <strong></strong>
+            cobalt &copy; 2023
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Add Product-->
+    <div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <i class="fa fa-cart-plus modal-icon"></i>
+            <h4 class="modal-title">Add product</h4>
+            <small>Adding a new product to the productlist</small>
+          </div>
+          <div class="modal-body">
+            <form method="get">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Product</label>
+
+                <div class="col-sm-10"><input type="text" class="form-control newProductTitle" /></div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Stock Location</label>
+
+                <div class="col-sm-10"><input type="text" class="form-control newProductLocation" /></div>
+              </div>
+              <div class="hr-line-dashed"></div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Current Stock</label>
+
+                <div class="col-sm-10"><input type="number" class="form-control newProductStock" /></div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Minimum Stock</label>
+
+                <div class="col-sm-10"><input type="number" class="form-control newProductMinStock" /></div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Maximum Stock</label>
+
+                <div class="col-sm-10"><input type="number" class="form-control newProductMaxStock" /></div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary saveProduct" data-dismiss="modal">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Edit Product-->
+    <div class="modal inmodal" id="modalProductEdit" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <i class="fa fa-cart-plus modal-icon"></i>
+            <h4 class="modal-title modalProductTitle"></h4>
+            <small>Edit this product</small>
+          </div>
+          <div class="modal-body">
+            <form method="get">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Product</label>
+
+                <div class="col-sm-10"><input type="text" class="form-control editProductTitle" /></div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Stock Location</label>
+
+                <div class="col-sm-10"><input type="text" class="form-control editProductLocation" /></div>
+              </div>
+              <div class="hr-line-dashed"></div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Minimum Stock</label>
+
+                <div class="col-sm-10"><input type="number" class="form-control editProductMinStock" /></div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Maximum Stock</label>
+
+                <div class="col-sm-10"><input type="number" class="form-control editProductMaxStock" /></div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary saveEditProduct" data-dismiss="modal">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Add Stock-->
+    <div class="modal inmodal" id="modalAddStock" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <i class="fa fa-plus-square modal-icon"></i>
+            <h4 class="modal-title addStock">Add stock</h4>
+            <small>Adding stock</small>
+          </div>
+          <div class="modal-body">
+            <form method="get">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Amount</label>
+
+                <div class="col-sm-10"><input type="number" class="form-control stockToAdd" /></div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary saveAddStock" data-dismiss="modal">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Remove Stock-->
+    <div class="modal inmodal" id="modalRemoveStock" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <i class="fa fa-minus-square modal-icon"></i>
+            <h4 class="modal-title removeStock">Remove stock</h4>
+            <small>Removing stock</small>
+          </div>
+          <div class="modal-body">
+            <form method="get">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Amount</label>
+
+                <div class="col-sm-10"><input type="number" class="form-control stockToRemove" /></div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary saveRemoveStock" data-dismiss="modal">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="script.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="js/inspinia.js"></script>
+    <script src="js/plugins/pace/pace.min.js"></script>
+
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+  </body>
+</html>

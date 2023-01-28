@@ -1,0 +1,25 @@
+#notification {
+  font-size: larger;
+  font-weight: 800;
+  display:flex;
+  color:darkblue;
+
+}
+
+.main {
+  background-color: rgb(205, 205, 243);
+  padding:2em;
+  margin:10em;
+}
+
+html {
+  background-color: black;
+}
+
+.button {
+  padding:1em;
+  margin:0.5em;
+  background-color:dodgerblue;
+  border-color:darkblue;
+
+}
