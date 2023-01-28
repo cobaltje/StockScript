@@ -235,13 +235,13 @@ function addProduct(productTitle, stockLocation, starterStock, minimumStock, max
     <td id="productMinStock${id}" scope="row" style="text-align: center;">${minimumStock}</td>
     <td id="productMaxStock${id}" scope="row" style="text-align: center;">${maximumStock}</td>
     <td id="productButtons${id}" scope="row" style="text-align: right">
-                        <button id="addStockButton" type="button" class="btn btn-primary btn-sm dim" onclick="addStock(${id - 1})">
+                        <button id="addStockButton" type="button" class="btn btn-primary btn-sm " onclick="addStock(${id - 1})">
                           <i class="fa fa-plus-square modal-icon"></i> Add Stock
                         </button>
-                        <button id="removeStockButton" type="button" class="btn btn-danger btn-sm dim" onclick="removeStock(${id - 1})">
+                        <button id="removeStockButton" type="button" class="btn btn-danger btn-sm " onclick="removeStock(${id - 1})">
                           <i class="fa fa-minus-square modal-icon"></i> Remove Stock
                         </button>
-                        <button id="editProductButton" type="button" class="btn btn-info btn-sm dim" onclick="editProduct(${id - 1})">
+                        <button id="editProductButton" type="button" class="btn btn-info btn-sm " onclick="editProduct(${id - 1})">
                           <i class="fa fa-pencil modal-icon"></i> Edit Product
                         </button>
                       </td>`,
@@ -261,7 +261,6 @@ document.querySelector('.saveProduct').addEventListener('click', function () {
   let productExist = false;
   for (let i = 0; i < product.length; i++) {
     if (productTitle === product[i].name) productExist = true;
-    console.log('does not exist', product[i].name);
   }
   if (productTitle === '') {
     swal({
@@ -299,7 +298,6 @@ function resetProductInputValues() {
 // Edit a product
 function editProduct(productId) {
   const assignedProduct = product[productId];
-  console.log(assignedProduct);
   // Opening the modal
   $('#modalProductEdit').modal('toggle');
   // Filling in the values
@@ -326,6 +324,5 @@ function editProduct(productId) {
     document.getElementById(`productMaxStock${productId + 1}`).textContent = productToEdit.stock.maximumStock;
     // RESET EVENTLISTENER
     this.removeEventListener('click', editProduct);
-    console.log(assignedProduct);
   });
 }
