@@ -1,48 +1,7 @@
 'use strict';
 
 // Product list
-const product = [
-  {
-    id: 1,
-    name: 'Keyboard Logitech',
-    stockLocation: 'IT Room',
-    stock: {
-      currentStock: 7,
-      minimumStock: 5,
-      maximumStock: 10,
-    },
-  },
-  {
-    id: 2,
-    name: 'Mouse Logitech',
-    stockLocation: 'IT Room',
-    stock: {
-      currentStock: 8,
-      minimumStock: 2,
-      maximumStock: 15,
-    },
-  },
-  {
-    id: 3,
-    name: 'Dell Monitor 24inch',
-    stockLocation: 'IT Room',
-    stock: {
-      currentStock: 7,
-      minimumStock: 4,
-      maximumStock: 8,
-    },
-  },
-  {
-    id: 4,
-    name: 'A4 paper',
-    stockLocation: 'Reception',
-    stock: {
-      currentStock: 15,
-      minimumStock: 5,
-      maximumStock: 25,
-    },
-  },
-];
+const product = [];
 
 // HTML Values
 // Loop for checking all values
