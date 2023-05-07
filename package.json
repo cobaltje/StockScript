@@ -1,0 +1,23 @@
+{
+  "name": "stockscript",
+  "version": "1.0.0",
+  "description": "Small stock application",
+  "main": "index.html",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html --dist-dir ./dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cobaltje/StockScript.git"
+  },
+  "author": "Timothy Vinckier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cobaltje/StockScript/issues"
+  },
+  "homepage": "https://github.com/cobaltje/StockScript#readme",
+  "dependencies": {
+    "parcel": "^2.8.3"
+  }
+}
