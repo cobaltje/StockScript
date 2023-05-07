@@ -557,6 +557,7 @@ function hmrAccept(bundle, id) {
 }
 
 },{}],"aenu9":[function(require,module,exports) {
+console.log("Hello World");
 
 },{}]},["d8XZh","aenu9"], "aenu9", "parcelRequire261d")
 
