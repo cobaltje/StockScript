@@ -2,13 +2,10 @@ export default class View {
   _data;
 
   render(data, render = true) {
-    console.log('TEST');
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError();
-
     this._data = data;
-    console.log(this._data);
-    const markup = this._generateMarkup();
+    const markup = this._generateMarkup(data);
 
     if (!render) return markup;
 

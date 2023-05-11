@@ -1,17 +1,22 @@
-import { supabase } from './supabase.js';
-import * as model from './model.js';
-import productListView from './views/productListView.js';
+import { supabase } from '/src/js/supabase.js';
+import * as model from '/src/js/model.js';
+import productListView from '/src/js/views/productListView.js';
+import View from '/src/js/views/View.js';
 
 const productListResults = async function () {
   try {
     // Load Search Results
     await model.loadProducts();
+
     // Render Results
-    const datatest = [1, 2, 3];
-    productListView.render(datatest);
+    model.state.products.forEach(product => productListView.render(product));
   } catch (error) {
     console.error(`💥${error}`);
   }
 };
 
-productListResults();
+const init = function () {
+  productListResults();
+};
+
+init();

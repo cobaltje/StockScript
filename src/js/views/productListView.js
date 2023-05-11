@@ -5,14 +5,14 @@ class ProductListView extends View {
 
   _generateMarkup() {
     return `
-    <tr>
+    <tr class="table-productrow" data-productid="${this._data.id}">
       <td><input type="checkbox" /></td>
       <td>${this._data.id}</td>
-      <td>${this._data.productName}</td>
-      <td>${this._data.stockLocation}</td>
+      <td>${this._data.productname}</td>
+      <td>${this._data.stocklocation}</td>
       <td>${this._data.stock}</td>
-      <td>${this._data.minimumStock}</td>
-      <td>${this._data.maximumStock}</td>
+      <td>${this._data.minimumstock}</td>
+      <td>${this._data.maximumstock}</td>
     </tr>
     `;
   }
