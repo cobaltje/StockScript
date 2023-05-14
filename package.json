@@ -4,7 +4,7 @@
   "description": "Small stock application",
   "default": "index.html",
   "scripts": {
-    "start": "parcel index.html --no-cache",
+    "start": "parcel index.html",
     "build": "parcel build index.html --dist-dir ./dist"
   },
   "repository": {
@@ -19,6 +19,7 @@
   "homepage": "https://github.com/cobaltje/StockScript#readme",
   "dependencies": {
     "@supabase/supabase-js": "^2.21.0",
+    "core-js": "^3.30.2",
     "parcel": "^2.8.3"
   },
   "devDependencies": {

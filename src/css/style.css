@@ -94,7 +94,7 @@ body {
   border-radius: 25px;
 }
 
-#search {
+.search-field {
   height: 50px;
   width: 400px;
   padding-left: 25px;
@@ -102,7 +102,7 @@ body {
   border-radius: 25px;
 }
 
-#search:focus {
+.search-field:focus {
   outline: none;
 }
 
@@ -172,6 +172,20 @@ body {
 }
 
 /* PRODUCT TABLE */
+
+.btn-table-function {
+  font-size: 10px;
+  padding: 5px;
+  background-color: #b2b3f6;
+  border-radius: 50px;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-table-function:hover {
+  background-color: #5b5cb5;
+  color: #ffffff;
+}
 
 .product-table {
   border-collapse: collapse;

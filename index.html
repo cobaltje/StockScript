@@ -19,11 +19,17 @@
       <div class="header">
         <div class="logo"><i class="fa-solid fa-cubes"></i> StockScript</div>
         <div class="searchbar">
-          <input type="search" id="search" placeholder="Search a product" />
-          <button class="btn search_btn">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <span>Search</span>
-          </button>
+          <form class="search">
+            <input
+              type="search"
+              class="search-field"
+              placeholder="Search a product"
+            />
+            <button class="btn search_btn">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Search</span>
+            </button>
+          </form>
         </div>
         <div class="navigation">
           <button class="btn btn_addproduct">
@@ -55,11 +61,34 @@
             <span class="productlist-quickaction action-minus">-10</span>
           </div>
 
+          <div class="table-functions">
+            <form class="tablefunctions">
+              <button class="btn btn-table-function btn_filter">
+                <i class="fa-solid fa-filter"></i> Filter
+              </button>
+              <button class="btn btn-table-function btn_removefilter">
+                <i class="fa-solid fa-filter-circle-xmark"></i> Remove filter
+              </button>
+            </form>
+            <div class="filter-menu hidden">
+              <form class="filters">
+                <input
+                  type="search"
+                  class="filter-productname"
+                  placeholder="Productname"
+                />
+                <select name="stocklocation" class="filter-stocklocation">
+                  <option value="IT StockRoom">IT StockRoom</option>
+                  <option value="IT Basement">IT Basement</option>
+                </select>
+              </form>
+            </div>
+          </div>
           <table class="product-table">
             <thead>
               <tr>
                 <th><input type="checkbox" /></th>
-                <th>Id</th>
+                <th>Id <i class="fa-solid fa-caret-up"></i></th>
                 <th>ProductName</th>
                 <th>StockLocation</th>
                 <th>Current Stock</th>
@@ -70,7 +99,7 @@
             <tbody class="product-table-data"></tbody>
           </table>
         </div>
-        <div class="productoverview">
+        <!-- <div class="productoverview">
           <div class="productoverview-heading">
             <i class="fa-solid fa-folder-open productoverview-title-icon"></i>
             <span class="product-title">Keyboard Logitech</span>
@@ -124,7 +153,7 @@
               </tr>
             </table>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <script
