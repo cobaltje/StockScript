@@ -8,7 +8,7 @@ class ProductView extends view {
     console.log(this._parentTableElement);
     this._parentTableElement.addEventListener('click', function (e) {
       const selectedProduct = Number(e.target.closest('tr').dataset.productid);
-      e.preventDefault();
+      if (isNaN(selectedProduct)) return;
       handler(selectedProduct);
     });
   }
