@@ -21,7 +21,7 @@ class ProductView extends View {
 
   renderProductView(data, windowActive, render = true) {
     if (windowActive) {
-      document.querySelector('.productoverview').innerHTML = '';
+      document.querySelector('.productoverview').remove();
     }
     this._data = data;
     const markup = this._generateMarkup(data);
