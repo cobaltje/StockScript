@@ -1,9 +1,9 @@
 import { supabase } from '/src/js/supabase.js';
-import * as model from '/src/js/model.js';
-import productListView from '/src/js/views/productListView.js';
-import searchView from '/src/js/views/searchView.js';
-import resetListView from '/src/js/views/resetListView.js';
-import productView from '/src/js/views/productView.js';
+import * as model from './model.js';
+import productListView from './views/productListView.js';
+import searchView from './views/searchView.js';
+import resetListView from './views/resetListView.js';
+import productView from './views/productView.js';
 import 'core-js/stable';
 import { clearStateProduct } from './model';
 import Swal from 'sweetalert2';
