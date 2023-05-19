@@ -1,4 +1,4 @@
-import View from './view.js';
+import View from './view';
 
 class ProductListView extends View {
   _parentElement = document.querySelector('.product-table-data');

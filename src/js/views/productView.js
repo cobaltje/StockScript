@@ -1,4 +1,4 @@
-import View from './view.js';
+import View from './view';
 import { controlProductActions } from '../controller.js';
 
 class ProductView extends View {
