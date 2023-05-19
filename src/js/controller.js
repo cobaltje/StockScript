@@ -65,7 +65,7 @@ const controlProductView = function (selectedProduct) {
     product => product.id === selectedProduct
   );
 
-  productWindowActive = model.state.activeProduct;
+  const productWindowActive = model.state.activeProduct;
   productView.renderProductView(product, productWindowActive);
   model.state.activeProduct = true;
   model.state.activeProductId = product.id;
