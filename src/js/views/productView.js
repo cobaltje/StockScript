@@ -1,7 +1,7 @@
-import view from './view.js';
+import View from './view.js';
 import { controlProductActions } from '../controller.js';
 
-class ProductView extends view {
+class ProductView extends View {
   _parentElement = document.querySelector('.productlist');
   _parentTableElement = document.querySelector('.product-table');
   _deleteElement = document.querySelector('.action-delete');
