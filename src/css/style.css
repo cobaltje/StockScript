@@ -15,7 +15,7 @@ body {
 /* MAIN LAYOUT */
 .container {
   background-color: #eaf9ff;
-  max-height: 800px;
+
   max-width: 1400px;
   margin: auto;
   margin-top: 75px;
@@ -29,7 +29,6 @@ body {
 }
 
 .productlist {
-  height: 100%;
   flex: 1 1;
   padding: 15px;
 }

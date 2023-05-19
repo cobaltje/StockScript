@@ -1,30 +1,33 @@
 import view from './view.js';
+import { controlProductActions } from '../controller.js';
 
 class ProductView extends view {
   _parentElement = document.querySelector('.productlist');
   _parentTableElement = document.querySelector('.product-table');
+  _deleteElement = document.querySelector('.action-delete');
 
   addHandlerProductView(handler) {
-    console.log(this._parentTableElement);
     this._parentTableElement.addEventListener('click', function (e) {
       const selectedProduct = Number(e.target.closest('tr').dataset.productid);
       if (isNaN(selectedProduct)) return;
+      this._selectedProductId = selectedProduct;
       handler(selectedProduct);
     });
+  }
+
+  actionEventListeners() {
+    document.addEventListener('click', controlProductActions);
   }
 
   renderProductView(data, windowActive, render = true) {
     if (windowActive) {
       document.querySelector('.productoverview').innerHTML = '';
     }
-
     this._data = data;
-
     const markup = this._generateMarkup(data);
-
     if (!render) return markup;
-
     this._parentElement.insertAdjacentHTML('afterend', markup);
+    // Generate event listeners
   }
 
   _generateMarkup() {
@@ -36,23 +39,20 @@ class ProductView extends view {
             <i class="fa-solid fa-xmark"></i>
           </div>
           <div class="productoverview-actions">
-            <span class="productoverview-action action-edit"
-              ><i class="fa-solid fa-list-ul"></i> Movements</span
+            <span class="productoverview-action action-movements" data-id="${this._data.id}" data-productname="${this._data.productname}"><i class="fa-solid fa-list-ul"></i> Movements</span
             >
-            <span class="productoverview-action action-edit"
-              ><i class="fa-solid fa-pen-to-square productrow-icon"></i> Edit
+            <span class="productoverview-action action-edit" data-id="${this._data.id}" data-productname="${this._data.productname}"><i class="fa-solid fa-pen-to-square productrow-icon"></i> Edit
               Product</span
             >
-            <span class="productoverview-action action-delete"
-              ><i class="fa-solid fa-trash-can productrow-icon"></i> Delete
+            <span class="productoverview-action action-delete" data-id="${this._data.id}" data-productname="${this._data.productname}"><i class="fa-solid fa-trash-can productrow-icon"></i> Delete
               Product</span
             >
           </div>
           <div class="productoverview-content">
             <div class="imgcontainer">
               <img
-                src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTBa3S8LN_u6REW43N-55PKU7tbdPQTgrltMN8ek0pnbT6j3QrKx5iIZZ8dqD0kCdlSgAjnJCmFq8PBDFG5bvzjD08w4pGEHcCMVmOYm31ynNPOTvpA1rrxwA&usqp=CAE"
-                alt="producttitle"
+                src="${this._data.imageurl}"
+                alt="${this._data.productname}"
                 width="150"
                 height="150"
               />

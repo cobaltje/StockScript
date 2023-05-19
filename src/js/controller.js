@@ -6,6 +6,7 @@ import resetListView from '/src/js/views/resetListView.js';
 import productView from '/src/js/views/productView.js';
 import 'core-js/stable';
 import { clearStateProduct } from './model';
+import Swal from 'sweetalert2';
 
 const productListResults = async function () {
   try {
@@ -15,7 +16,6 @@ const productListResults = async function () {
     await model.loadProducts();
 
     // Render Results
-    console.log(model.state.products);
     model.state.products.map(product => {
       productListView.renderList(product);
     });
@@ -68,13 +68,53 @@ const controlProductView = function (selectedProduct) {
   productWindowActive = model.state.activeProduct;
   productView.renderProductView(product, productWindowActive);
   model.state.activeProduct = true;
+  model.state.activeProductId = product.id;
 };
+
+const controlProductActions = function (event) {
+  // Product Action DELETE
+  if (event.target.matches('.action-delete')) {
+    const productId = Number(event.target.dataset.id);
+    const productName = event.target.dataset.productname;
+    return deleteSelectedProduct(productId, productName);
+  }
+};
+
+const deleteSelectedProduct = function (productId, productName) {
+  Swal.fire({
+    title: `Delete ${productName}?`,
+    text: 'There is no way back after this!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!',
+  }).then(async result => {
+    if (result.isConfirmed) {
+      try {
+        await model.deleteProduct(productId);
+        Swal.fire('Deleted!', `${productName} has been deleted.`, 'success');
+        resetListResults();
+
+        document.querySelector('.productoverview').remove();
+        model.state.activeProduct = '';
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  });
+};
+
+/**** */
 
 const init = function () {
   productListResults();
   searchView.addHandlerSearch(controlSearchResults);
   resetListView.addHandlerResetList(resetListResults);
   productView.addHandlerProductView(controlProductView);
+  productView.actionEventListeners();
 };
 
 init();
+
+export { controlProductActions };

@@ -3,11 +3,13 @@ import { supabase } from './supabase.js';
 export const state = {
   products: [],
   activeProduct: false,
+  activeProductId: 0,
   search: {
     query: '',
   },
 };
 
+// Loading all the products
 export const loadProducts = async function () {
   try {
     const res = await supabase
@@ -22,6 +24,7 @@ export const loadProducts = async function () {
   }
 };
 
+// Loading the search results
 export const loadSearchResults = async function (query) {
   try {
     state.products = [];
@@ -39,6 +42,19 @@ export const loadSearchResults = async function (query) {
   }
 };
 
+// Clear the product state
 export const clearStateProduct = function () {
   return (state.products = []);
+};
+
+// Delete product
+export const deleteProduct = async function (productId) {
+  try {
+    const { error } = await supabase
+      .from('product')
+      .delete()
+      .eq('id', productId);
+  } catch (error) {
+    console.error(error);
+  }
 };
