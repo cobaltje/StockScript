@@ -1,4 +1,4 @@
-import View from './view.js';
+import View from './view';
 
 class ResetListView extends View {
   _parentElement = document.querySelector('.btn_removefilter');
