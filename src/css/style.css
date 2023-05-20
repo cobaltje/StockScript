@@ -242,6 +242,16 @@ body {
   background-color: #eeeeff;
 }
 
+.productrow-warning {
+  background-color: #de9842;
+  color: #fff;
+}
+
+.productrow-error {
+  background-color: #de4242;
+  color: #fff;
+}
+
 /* QUICK ACTION */
 .productlist-quickactions {
   display: flex;

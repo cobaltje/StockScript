@@ -14,6 +14,7 @@ const productListResults = async function () {
     // Clear previous results
     productListView._clear();
     clearStateProduct();
+    document.querySelector('#checkboxall').checked = false;
     // Load Search Results
     await model.loadProducts();
 
@@ -112,16 +113,35 @@ const deleteSelectedProduct = function (productId, productName) {
 };
 
 const stockCalculation = async function (products, quantity) {
+  const productValid = [];
+  const productInvalid = [];
   // Update for all items
   new Promise((resolve, reject) => {
     products.forEach(async function (product, i) {
       const newQty = Number(product.stock) + Number(quantity);
-      if (newQty < 0) return stockCalcErorr(product.productname, 'StockToLow');
+      console.log(newQty);
+      if (newQty < 0) {
+        productInvalid.push(product.productname);
+        return;
+      }
+      console.log('here');
       if (newQty > product.maxstock && newQty > product.stock)
-        alert('You went over the maximum stock amount');
+        console.log('You went over the maximum stock amount');
 
+      // Update stock in Product Table
       await model.updateProductStock(Number(product.id), newQty);
-      if (i === products.length - 1) resolve(productListResults());
+      if (i === products.length - 1)
+        resolve(
+          (function () {
+            Swal.fire(
+              'Done!',
+              `The selected products have been updated.`,
+              'success'
+            );
+            productListResults();
+            console.log(productInvalid);
+          })()
+        );
     });
   });
 };
@@ -134,10 +154,17 @@ const stockCalcErorr = function (productName, error) {
   });
 };
 
-/* CheckList */
-function check() {
-  console.log('test');
-}
+/* CheckList All */
+const checkboxAll = document.querySelector('#checkboxall');
+checkboxAll.addEventListener('click', function (e) {
+  const table = document.querySelector('.product-table-data');
+  const checkBoxes = table.querySelectorAll('input');
+  e.target.checked
+    ? checkBoxes.forEach(checkbox => (checkbox.checked = true))
+    : checkBoxes.forEach(checkbox => (checkbox.checked = false));
+
+  console.log(e.target.checked);
+});
 
 /**** */
 
