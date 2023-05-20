@@ -44,7 +44,7 @@ export const loadSearchResults = async function (query) {
 
 // Clear the product state
 export const clearStateProduct = function () {
-  return (state.products = []);
+  state.products = [];
 };
 
 // Delete product
@@ -53,6 +53,18 @@ export const deleteProduct = async function (productId) {
     const { error } = await supabase
       .from('product')
       .delete()
+      .eq('id', productId);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Update stock
+export const updateProductStock = async function (productId, newStock) {
+  try {
+    const { error } = await supabase
+      .from('product')
+      .update({ stock: newStock })
       .eq('id', productId);
   } catch (error) {
     console.error(error);

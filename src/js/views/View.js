@@ -1,3 +1,5 @@
+import { controlProductActions } from '../controller';
+
 export default class View {
   _data;
 

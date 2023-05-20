@@ -1,5 +1,4 @@
 import View from './View';
-import { controlProductActions } from '../controller.js';
 
 class ProductView extends View {
   _parentElement = document.querySelector('.productlist');
@@ -13,10 +12,6 @@ class ProductView extends View {
       this._selectedProductId = selectedProduct;
       handler(selectedProduct);
     });
-  }
-
-  actionEventListeners() {
-    document.addEventListener('click', controlProductActions);
   }
 
   renderProductView(data, windowActive, render = true) {
@@ -36,7 +31,7 @@ class ProductView extends View {
           <div class="productoverview-heading">
             <i class="fa-solid fa-folder-open productoverview-title-icon"></i>
             <span class="product-title">${this._data.productname}</span>
-            <i class="fa-solid fa-xmark"></i>
+              <i class="fa-solid fa-circle-xmark product-close"></i>
           </div>
           <div class="productoverview-actions">
             <span class="productoverview-action action-movements" data-id="${this._data.id}" data-productname="${this._data.productname}"><i class="fa-solid fa-list-ul"></i> Movements</span
@@ -57,6 +52,12 @@ class ProductView extends View {
                 height="150"
               />
             </div>
+          
+            <div class="productoverview-stockactions">
+            <span class="productoverview-action stock-action action-stock-add" data-id="${this._data.id}" data-productname="${this._data.productname}"><i class="fa-solid fa-circle-plus"></i> Add stock</span>
+            <span class="productoverview-action stock-action action-stock-remove" data-id="${this._data.id}" data-productname="${this._data.productname}"><i class="fa-solid fa-circle-minus"></i> Remove stock</span>
+            </div>
+
             <span class="product-subtitle"
               ><i class="fa-solid fa-layer-group"></i> Product Details</span
             >

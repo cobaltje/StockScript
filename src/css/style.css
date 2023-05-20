@@ -26,6 +26,7 @@ body {
 .main {
   background-color: #ffffff;
   display: flex;
+  border-radius: 15px;
 }
 
 .productlist {
@@ -45,12 +46,21 @@ body {
 }
 
 .productlist-title-icon,
-.productoverview-title-icon {
+.productoverview-title-icon,
+.product-close {
   background-color: #25254e;
   font-size: 16px;
   padding: 10px;
-  border-radius: 50px;
+  border-radius: 100px;
   color: #9b9cff;
+}
+
+.product-close {
+  cursor: pointer;
+}
+
+.product-close:hover {
+  background-color: #43439d;
 }
 
 .hidden {
@@ -262,7 +272,8 @@ body {
 .productoverview {
   background-color: #eeeeff;
   flex: 0 1 450px;
-  height: 100%;
+  height: calc(100vh -175px);
+  border-radius: 0px 0px 15px 0px;
 }
 
 .productoverview-heading {
@@ -271,6 +282,14 @@ body {
   justify-content: space-between;
   align-items: center;
   background-color: #bebee1;
+}
+
+.productoverview-stockactions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 25px;
 }
 
 /* PRODUCT OVERVIEW TABLE */
@@ -340,7 +359,22 @@ body {
   text-align: left;
   background-color: #5b5cb5;
   color: #fff;
-  border: colla;
+  border: collapse;
+  width: 150px;
+}
+
+.stock-action {
+  font-size: 16px;
+  padding: 10px;
+}
+
+.action-stock-add:hover {
+  background-color: #b2f6d2;
+  color: #25254e;
+}
+
+.action-stock-remove:hover {
+  background-color: #f6b2c2;
 }
 
 .imgcontainer {
