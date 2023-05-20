@@ -232,24 +232,25 @@ body {
   border-bottom: 2px solid #5b5cb5;
 }
 
-.product-table tbody tr.active-row {
-  font-weight: bold;
-  color: #5b5cb5;
-}
-
 .product-table tbody tr:hover {
   color: #5b5cb5;
+
   background-color: #eeeeff;
 }
 
-.productrow-warning {
-  background-color: #de9842;
+.product-table tbody .productrow-warning {
+  background-color: #f37a08;
   color: #fff;
 }
 
-.productrow-error {
-  background-color: #de4242;
+.product-table tbody .productrow-warning:nth-of-type(even) {
+  background-color: #f9973c;
   color: #fff;
+}
+
+.product-table tbody .productrow-warning:hover {
+  background-color: #d46905;
+  color: #ffffff;
 }
 
 /* QUICK ACTION */
@@ -349,8 +350,8 @@ body {
 }
 
 .productoverview-action {
-  font-size: 10px;
-  padding: 5px;
+  font-size: 12px;
+  padding: 10px;
   background-color: #b2b3f6;
   border-radius: 50px;
   cursor: pointer;

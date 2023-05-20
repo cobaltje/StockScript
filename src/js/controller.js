@@ -34,8 +34,34 @@ const controlSearchResults = async function () {
     if (!query);
 
     // 3) Empty table & clear input
+
     clearStateProduct();
     productListView._clear();
+    document.querySelector('#checkboxall').checked = false;
+
+    // 2) Load Search Results
+    await model.loadSearchResults(query);
+
+    // 4) Render results
+    model.state.products.map(product => {
+      productListView.renderList(product);
+    });
+  } catch (error) {
+    console.error(`💥${error}`);
+  }
+};
+
+const controlResetResultsWithSearch = async function () {
+  try {
+    // 1) Get Search Query
+    const query = model.state.search.query;
+    if (!query);
+
+    // 3) Empty table & clear input
+
+    clearStateProduct();
+    productListView._clear();
+    document.querySelector('#checkboxall').checked = false;
 
     // 2) Load Search Results
     await model.loadSearchResults(query);
@@ -51,6 +77,7 @@ const controlSearchResults = async function () {
 
 const resetListResults = function () {
   productListResults();
+  model.state.search.query = '';
 };
 
 const controlProductView = function (selectedProduct) {
@@ -115,31 +142,28 @@ const deleteSelectedProduct = function (productId, productName) {
 const stockCalculation = async function (products, quantity) {
   const productValid = [];
   const productInvalid = [];
+  const productMax = [];
+  const productMin = [];
   // Update for all items
   new Promise((resolve, reject) => {
     products.forEach(async function (product, i) {
       const newQty = Number(product.stock) + Number(quantity);
       console.log(newQty);
+      if (newQty >= 0) {
+        productValid.push(product.productname);
+        await model.updateProductStock(Number(product.id), newQty);
+      }
       if (newQty < 0) {
         productInvalid.push(product.productname);
-        return;
       }
-      console.log('here');
-      if (newQty > product.maxstock && newQty > product.stock)
-        console.log('You went over the maximum stock amount');
 
-      // Update stock in Product Table
-      await model.updateProductStock(Number(product.id), newQty);
       if (i === products.length - 1)
         resolve(
           (function () {
-            Swal.fire(
-              'Done!',
-              `The selected products have been updated.`,
-              'success'
-            );
+            // Resolve steps to follow
+            if (model.state.search.query)
+              return controlResetResultsWithSearch();
             productListResults();
-            console.log(productInvalid);
           })()
         );
     });

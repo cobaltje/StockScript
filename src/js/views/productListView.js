@@ -20,8 +20,18 @@ class ProductListView extends View {
 
   _generateMarkup() {
     return `
-    <tr class="table-productrow ${this._data.stock}" data-productid="${this._data.id}">
-      <td><input type="checkbox" id="${this._data.id}" class="checkbox" data-id="${this._data.id}" data-stock="${this._data.stock}" data-productname="${this._data.productname}" data-stocklocation="${this._data.stocklocation}" data-minstock="${this._data.minimumstock}" data-maxstock="${this._data.maximumstock}"/></td>
+    <tr class="table-productrow ${
+      this._data.stock <= this._data.minimumstock ? 'productrow-warning' : ''
+    }" data-productid="${this._data.id}">
+      <td><input type="checkbox" id="${
+        this._data.id
+      }" class="checkbox" data-id="${this._data.id}" data-stock="${
+      this._data.stock
+    }" data-productname="${this._data.productname}" data-stocklocation="${
+      this._data.stocklocation
+    }" data-minstock="${this._data.minimumstock}" data-maxstock="${
+      this._data.maximumstock
+    }"/></td>
       <td>${this._data.id}</td>
       <td>${this._data.productname}</td>
       <td>${this._data.stocklocation}</td>
