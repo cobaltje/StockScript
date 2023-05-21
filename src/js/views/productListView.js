@@ -21,7 +21,10 @@ class ProductListView extends View {
   _generateMarkup() {
     return `
     <tr class="table-productrow ${
-      this._data.stock <= this._data.minimumstock ? 'productrow-warning' : ''
+      this._data.stock <= this._data.minimumstock &&
+      this._data.stock != this._data.maximumstock
+        ? 'productrow-warning'
+        : ''
     }" data-productid="${this._data.id}">
       <td><input type="checkbox" id="${
         this._data.id

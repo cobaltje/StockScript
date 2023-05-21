@@ -100,6 +100,7 @@ const controlActions = function (event) {
     return deleteSelectedProduct(productId, productName);
   }
 
+  // Close product sidebar
   if (event.target.matches('.product-close')) {
     document.querySelector('.productoverview').remove();
     model.state.activeProduct = '';
@@ -112,9 +113,15 @@ const controlActions = function (event) {
     if (products.length === 0) return;
     stockCalculation(products, changeAmount);
   }
+
+  // Create New Product
+  if (event.target.matches('.addproduct')) {
+    addProduct();
+  }
 };
 
 const deleteSelectedProduct = function (productId, productName) {
+  // Sweet alert warning
   Swal.fire({
     title: `Delete ${productName}?`,
     text: 'There is no way back after this!',
@@ -126,10 +133,14 @@ const deleteSelectedProduct = function (productId, productName) {
   }).then(async result => {
     if (result.isConfirmed) {
       try {
+        // Delete product from database
         await model.deleteProduct(productId);
-        Swal.fire('Deleted!', `${productName} has been deleted.`, 'success');
-        resetListResults();
 
+        // Sweet alert succesfull delete
+        Swal.fire('Deleted!', `${productName} has been deleted.`, 'success');
+
+        // Reset
+        resetListResults();
         document.querySelector('.productoverview').remove();
         model.state.activeProduct = '';
       } catch (error) {
@@ -140,33 +151,40 @@ const deleteSelectedProduct = function (productId, productName) {
 };
 
 const stockCalculation = async function (products, quantity) {
+  // Arrays for final results
   const productValid = [];
   const productInvalid = [];
   const productMax = [];
   const productMin = [];
-  // Update for all items
-  new Promise((resolve, reject) => {
-    products.forEach(async function (product, i) {
-      const newQty = Number(product.stock) + Number(quantity);
-      console.log(newQty);
-      if (newQty >= 0) {
-        productValid.push(product.productname);
-        await model.updateProductStock(Number(product.id), newQty);
-      }
-      if (newQty < 0) {
-        productInvalid.push(product.productname);
-      }
 
-      if (i === products.length - 1)
-        resolve(
-          (function () {
-            // Resolve steps to follow
-            if (model.state.search.query)
-              return controlResetResultsWithSearch();
-            productListResults();
-          })()
-        );
-    });
+  // Update stock for selected products
+  products.forEach(async function (product, i) {
+    // Set the new stock quantity
+    const newQty = Number(product.stock) + Number(quantity);
+
+    // Update the stock in the database
+    if (newQty >= 0) {
+      productValid.push(product.productname);
+      await model.updateProductStock(Number(product.id), newQty);
+
+      // Add a movement to the database
+      await model.addMovement(product.id, product.stock, quantity, newQty);
+    }
+
+    // If newQty would be lower then 0 add them to the array and don't update stock
+    if (newQty < 0) productInvalid.push(product.productname);
+
+    // If newQty is bigger then the maxstock add them to the array
+    if (newQty > product.maxstock) productMax.push(product.productname);
+
+    // If newQty is lower or equal then the minstock add them to the array
+    if (newQty <= product.minstock) productMin.push(product.productname);
+
+    // If we reach the last product => End and refresh the list
+    if (i === products.length - 1) {
+      if (model.state.search.query) return controlResetResultsWithSearch();
+      productListResults();
+    }
   });
 };
 
@@ -186,9 +204,56 @@ checkboxAll.addEventListener('click', function (e) {
   e.target.checked
     ? checkBoxes.forEach(checkbox => (checkbox.checked = true))
     : checkBoxes.forEach(checkbox => (checkbox.checked = false));
-
-  console.log(e.target.checked);
 });
+
+/* New Product */
+
+const addProduct = async function () {
+  const { value: newProduct } = await Swal.fire({
+    title: 'Add product',
+    html:
+      '<input id="newprod-productname" class="swal2-input" placeholder="Productname">' +
+      '<input id="newprod-stocklocation" class="swal2-input" placeholder="Stocklocation">' +
+      '<input id="newprod-image" type="url" class="swal2-input" placeholder="URL Image">' +
+      '<input id="newprod-stock" type="number" class="swal2-input" placeholder="Stock">' +
+      '<input id="newprod-minstock" type="number" class="swal2-input" placeholder="Minimum stock">' +
+      '<input id="newprod-maxstock" type="number" class="swal2-input" placeholder="Maximum stock">',
+    focusConfirm: false,
+    preConfirm: () => {
+      return [
+        document.getElementById('newprod-productname').value,
+        document.getElementById('newprod-stocklocation').value,
+        document.getElementById('newprod-image').value,
+        document.getElementById('newprod-stock').value,
+        document.getElementById('newprod-minstock').value,
+        document.getElementById('newprod-maxstock').value,
+      ];
+    },
+  });
+
+  if (newProduct) {
+    const result = await model.addProduct(newProduct);
+
+    // Error
+    if (result)
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: `${result}`,
+      });
+
+    // Success
+    console.log('test');
+    return Swal.fire({
+      title: `${document.getElementById('newprod-productname').value}`,
+      text: 'Product has been added!',
+      imageUrl: `${document.getElementById('newprod-image').value}`,
+      imageWidth: 200,
+      imageHeight: 200,
+      imageAlt: 'ProductImage',
+    });
+  }
+};
 
 /**** */
 

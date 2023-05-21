@@ -32,7 +32,8 @@ export const loadSearchResults = async function (query) {
     const res = await supabase
       .from('product')
       .select('*')
-      .ilike('productname', `%${query}%`);
+      .ilike('productname', `%${query}%`)
+      .order('id', { ascending: false });
 
     const data = res.data;
     data.forEach(result => state.products.push(result));
@@ -67,6 +68,44 @@ export const updateProductStock = async function (productId, newStock) {
       .update({ stock: newStock })
       .eq('id', productId);
   } catch (error) {
+    console.error(error);
+  }
+};
+
+// Add movement
+export const addMovement = async function (
+  productId,
+  prevStock,
+  changeStock,
+  newStock
+) {
+  try {
+    const { error } = await supabase.from('movement').insert({
+      productid: Number(productId),
+      prevstockamount: prevStock,
+      changestockamount: changeStock,
+      newstockamount: newStock,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Add product
+export const addProduct = async function (newProduct) {
+  try {
+    console.log(newProduct);
+    const { error } = await supabase.from('product').insert({
+      productname: newProduct[0],
+      stocklocation: newProduct[1],
+      imageurl: newProduct[2],
+      stock: newProduct[3],
+      minimumstock: newProduct[4],
+      maximumstock: newProduct[5],
+    });
+    if (error) return error.message;
+  } catch (error) {
+    console.log('oh no');
     console.error(error);
   }
 };
