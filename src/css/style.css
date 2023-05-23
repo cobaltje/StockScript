@@ -396,4 +396,18 @@ img {
   margin: 15px;
   border-radius: 25px;
   border: 1px solid #b2b3f6;
+  object-fit: scale-down;
+  background-color: #fff;
+}
+
+td img {
+  margin: 0px;
+  border-radius: 5px;
+  border: px solid #b2b3f6;
+}
+
+td .img-productname {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }

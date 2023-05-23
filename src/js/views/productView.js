@@ -45,12 +45,12 @@ class ProductView extends View {
           </div>
           <div class="productoverview-content">
             <div class="imgcontainer">
-              <img
+              <a href="${this._data.imageurl}" target="_blank"><img
                 src="${this._data.imageurl}"
                 alt="${this._data.productname}"
                 width="150"
                 height="150"
-              />
+              /></a>
             </div>
           
             <div class="productoverview-stockactions">
