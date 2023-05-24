@@ -27,6 +27,7 @@ const productListResults = async function () {
 
     // Look for warning stocks
     const productsLow = controlLowOnStock(model.state.products);
+    if (productsLow.length === 0) productLowView.renderLowProduct('empty');
     productsLow.map(product => {
       productLowView.renderLowProduct(product);
     });
@@ -124,6 +125,7 @@ const controlProductView = function (selectedProduct) {
 
 const controlActions = function (event) {
   // Product Action DELETE
+  console.log(event.target);
   if (event.target.matches('.action-delete')) {
     const productId = Number(event.target.dataset.id);
     const productName = event.target.dataset.productname;
@@ -142,6 +144,14 @@ const controlActions = function (event) {
     const changeAmount = event.target.dataset.value;
     if (products.length === 0) return;
     stockCalculation(products, changeAmount);
+  }
+
+  // LowOnStock selected product
+  if (event.target.closest('.preview')) {
+    const id = Number(
+      event.target.closest('[data-productid]').dataset.productid
+    );
+    controlProductView(id);
   }
 
   // Create New Product

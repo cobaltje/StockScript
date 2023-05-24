@@ -453,7 +453,6 @@ td .img-productname {
 }
 
 .preview {
-  display: flex;
   cursor: pointer;
   background-color: #a5a5db;
   border-radius: 5px;
@@ -465,21 +464,25 @@ td .img-productname {
 }
 
 .preview_data {
-  flex-grow: 1;
   padding: 5px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-
   gap: 10px;
 }
 
 .preview_data_stock {
-  align-self: end;
   display: flex;
   flex-direction: column;
-  font-size: 28px;
-  align-items: end;
+  gap: 5px;
+  font-size: 8px !important;
+  align-items: flex-end;
   background-color: #6f6fa8;
   padding: 5px;
   border-radius: 5px;
+}
+
+.notification_lowstock {
+  font-size: 24px !important;
+  text-align: center;
 }
