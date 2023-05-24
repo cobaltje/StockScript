@@ -59,7 +59,7 @@ class ProductView extends View {
             </div>
 
             <span class="product-subtitle"
-              ><i class="fa-solid fa-layer-group"></i> Product Details</span
+              ><i class="fa-solid fa-clipboard"></i> Product Details</span
             >
             <table class="productoverview-table">
               <tr>

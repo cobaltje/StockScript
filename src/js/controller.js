@@ -1,6 +1,7 @@
 import { supabase } from '/src/js/supabase.js';
 import * as model from './model.js';
 import productListView from './views/productListView.js';
+import productLowView from './views/productLowView.js';
 import searchView from './views/searchView.js';
 import resetListView from './views/resetListView.js';
 import productView from './views/productView.js';
@@ -13,6 +14,7 @@ const productListResults = async function () {
   try {
     // Clear previous results
     productListView._clear();
+    productLowView._clear();
     clearStateProduct();
     document.querySelector('#checkboxall').checked = false;
     // Load Search Results
@@ -22,9 +24,27 @@ const productListResults = async function () {
     model.state.products.map(product => {
       productListView.renderList(product);
     });
+
+    // Look for warning stocks
+    const productsLow = controlLowOnStock(model.state.products);
+    productsLow.map(product => {
+      productLowView.renderLowProduct(product);
+    });
   } catch (error) {
     console.error(`💥${error}`);
   }
+};
+
+const controlLowOnStock = function (products) {
+  const productsLow = [];
+  for (let i = 0; i <= products.length - 1; i++) {
+    if (
+      products[i].stock <= products[i].minimumstock &&
+      products[i].stock !== products[i].maximumstock
+    )
+      productsLow.push(products[i]);
+  }
+  return productsLow;
 };
 
 const controlSearchResults = async function () {
@@ -46,6 +66,12 @@ const controlSearchResults = async function () {
     model.state.products.map(product => {
       productListView.renderList(product);
     });
+
+    // 5) Display Remove filter button
+    const menu = document.querySelector('.filter-menu');
+    const filterTxt = document.querySelector('.filter-text');
+    menu.classList.remove('hidden');
+    filterTxt.innerHTML = `<i class="fa-solid fa-tag"></i> ${query}`;
   } catch (error) {
     console.error(`💥${error}`);
   }
@@ -78,6 +104,10 @@ const controlResetResultsWithSearch = async function () {
 const resetListResults = function () {
   productListResults();
   model.state.search.query = '';
+  const menu = document.querySelector('.filter-menu');
+  const filterTxt = document.querySelector('.filter-text');
+  filterTxt.innerHTML = '';
+  menu.classList.add('hidden');
 };
 
 const controlProductView = function (selectedProduct) {
@@ -255,7 +285,7 @@ const addProduct = async function () {
   }
 };
 
-/**** */
+// /**** */
 
 const init = function () {
   productListResults();

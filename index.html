@@ -39,9 +39,12 @@
             >
           </button>
           <button class="btn btn_lowonstock">
-            <i class="fa-solid fa-triangle-exclamation"></i>
+            <i class="fa-solid fa-triangle-exclamation"> </i>
             <span class="nav nav-txt nav-txt-lowstock"> Low on stock</span>
           </button>
+          <div class="lowonstockproducts">
+            <div class="lowonstockproducts-list"></div>
+          </div>
         </div>
       </div>
       <div class="main">
@@ -104,25 +107,12 @@
           </div>
 
           <div class="table-functions">
-            <button class="btn btn-table-function btn_filter">
-              <i class="fa-solid fa-filter"></i> Filter
-            </button>
-            <button class="btn btn-table-function btn_removefilter">
-              <i class="fa-solid fa-filter-circle-xmark"></i> Remove filter
-            </button>
-
             <div class="filter-menu hidden">
-              <form class="filters">
-                <input
-                  type="search"
-                  class="filter-productname"
-                  placeholder="Productname"
-                />
-                <select name="stocklocation" class="filter-stocklocation">
-                  <option value="IT StockRoom">IT StockRoom</option>
-                  <option value="IT Basement">IT Basement</option>
-                </select>
-              </form>
+              <button class="btn btn-table-function btn_removefilter">
+                <i class="fa-solid fa-filter-circle-xmark"></i> Remove search
+                filter
+              </button>
+              <div class="filter-text"></div>
             </div>
           </div>
           <table class="product-table">
