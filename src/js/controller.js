@@ -68,6 +68,13 @@ const controlSearchResults = async function () {
       productListView.renderList(product);
     });
 
+    // Look for warning stocks
+    const productsLow = controlLowOnStock(model.state.products);
+    if (productsLow.length === 0) productLowView.renderLowProduct('empty');
+    productsLow.map(product => {
+      productLowView.renderLowProduct(product);
+    });
+
     // 5) Display Remove filter button
     const menu = document.querySelector('.filter-menu');
     const filterTxt = document.querySelector('.filter-text');
