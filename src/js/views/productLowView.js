@@ -16,6 +16,21 @@ class productLowView extends View {
     this._parentElement.insertAdjacentHTML('beforeend', markup);
   }
 
+  controlLowOnStock(products) {
+    const productsLow = [];
+    for (let i = 0; i <= products.length - 1; i++) {
+      if (
+        products[i].stock <= products[i].minimumstock &&
+        products[i].stock !== products[i].maximumstock
+      )
+        productsLow.push(products[i]);
+    }
+    if (productsLow.length === 0) this.renderLowProduct('empty');
+    productsLow.map(product => {
+      this.renderLowProduct(product);
+    });
+  }
+
   _generateMarkupEmpty() {
     return `
     <div class="preview">

@@ -5,98 +5,55 @@ import productLowView from './views/productLowView.js';
 import searchView from './views/searchView.js';
 import resetListView from './views/resetListView.js';
 import productView from './views/productView.js';
+import productsView from './views/productsView.js';
 import eventListenerView from './views/eventListenerView.js';
 import 'core-js/stable';
 import { clearStateProduct } from './model';
 import Swal from 'sweetalert2';
 
+// Get a full dump from the products out of the database
 const productListResults = async function () {
   try {
-    // Clear previous results
+    // 1) Clear previous results
     productListView._clear();
     productLowView._clear();
     clearStateProduct();
     document.querySelector('#checkboxall').checked = false;
-    // Load Search Results
+
+    // 2) Load Results
     await model.loadProducts();
+    const products = model.state.products;
 
-    // Render Results
-    model.state.products.map(product => {
-      productListView.renderList(product);
-    });
+    // 3) Render Results
+    const query = model.state.search.query;
+    productsView.renderProducts(products, query);
 
-    // Look for warning stocks
-    const productsLow = controlLowOnStock(model.state.products);
-    if (productsLow.length === 0) productLowView.renderLowProduct('empty');
-    productsLow.map(product => {
-      productLowView.renderLowProduct(product);
-    });
+    // 4) Look for products low on stock
+    productLowView.controlLowOnStock(products);
   } catch (error) {
     console.error(`💥${error}`);
   }
 };
 
-const controlLowOnStock = function (products) {
-  const productsLow = [];
-  for (let i = 0; i <= products.length - 1; i++) {
-    if (
-      products[i].stock <= products[i].minimumstock &&
-      products[i].stock !== products[i].maximumstock
-    )
-      productsLow.push(products[i]);
-  }
-  return productsLow;
-};
-
-const controlSearchResults = async function () {
+// Filter the results based on the given query
+const controlSearchResults = function () {
   try {
     // 1) Get Search Query
-    const query = searchView.getQuery();
+    const query = (model.state.search.query = searchView.getQuery());
     if (!query);
 
-    // 3) Empty table & clear input
-
-    clearStateProduct();
+    // 2) Empty table & clear input
     productListView._clear();
     document.querySelector('#checkboxall').checked = false;
 
-    // 2) Load Search Results
-    await model.loadSearchResults(query);
-
-    // 4) Render results
+    // 3) Render results based on query
     model.state.products.map(product => {
-      productListView.renderList(product);
+      if (product.productname.toLowerCase().includes(query))
+        productListView.renderList(product);
     });
 
     // 5) Display Remove filter button
-    const menu = document.querySelector('.filter-menu');
-    const filterTxt = document.querySelector('.filter-text');
-    menu.classList.remove('hidden');
-    filterTxt.innerHTML = `<i class="fa-solid fa-tag"></i> ${query}`;
-  } catch (error) {
-    console.error(`💥${error}`);
-  }
-};
-
-const controlResetResultsWithSearch = async function () {
-  try {
-    // 1) Get Search Query
-    const query = model.state.search.query;
-    if (!query);
-
-    // 3) Empty table & clear input
-
-    clearStateProduct();
-    productListView._clear();
-    document.querySelector('#checkboxall').checked = false;
-
-    // 2) Load Search Results
-    await model.loadSearchResults(query);
-
-    // 4) Render results
-    model.state.products.map(product => {
-      productListView.renderList(product);
-    });
+    productsView.displayFilterButton(query);
   } catch (error) {
     console.error(`💥${error}`);
   }
@@ -113,6 +70,7 @@ const resetListResults = function () {
 
 const controlProductView = function (selectedProduct) {
   // 1) Get Product from State
+  console.log(model.state.products);
   const product = model.state.products.find(
     product => product.id === selectedProduct
   );
@@ -125,7 +83,6 @@ const controlProductView = function (selectedProduct) {
 
 const controlActions = function (event) {
   // Product Action DELETE
-  console.log(event.target);
   if (event.target.matches('.action-delete')) {
     const productId = Number(event.target.dataset.id);
     const productName = event.target.dataset.productname;
@@ -222,7 +179,8 @@ const stockCalculation = async function (products, quantity) {
 
     // If we reach the last product => End and refresh the list
     if (i === products.length - 1) {
-      if (model.state.search.query) return controlResetResultsWithSearch();
+      // if (model.state.search.query) return controlResetResultsWithSearch();
+      console.log(model.state);
       productListResults();
     }
   });

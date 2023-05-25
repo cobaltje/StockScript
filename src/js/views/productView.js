@@ -18,6 +18,7 @@ class ProductView extends View {
     if (windowActive) {
       document.querySelector('.productoverview').remove();
     }
+    console.log(data);
     this._data = data;
     const markup = this._generateMarkup(data);
     if (!render) return markup;

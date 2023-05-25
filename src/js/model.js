@@ -12,6 +12,7 @@ export const state = {
 // Loading all the products
 export const loadProducts = async function () {
   try {
+    state.products = [];
     const res = await supabase
       .from('product')
       .select('*')
@@ -25,23 +26,23 @@ export const loadProducts = async function () {
 };
 
 // Loading the search results
-export const loadSearchResults = async function (query) {
-  try {
-    state.products = [];
-    state.search.query = query;
-    const res = await supabase
-      .from('product')
-      .select('*')
-      .ilike('productname', `%${query}%`)
-      .order('id', { ascending: false });
+// export const loadSearchResults = async function (query) {
+//   try {
+//     state.products = [];
+//     state.search.query = query;
+//     const res = await supabase
+//       .from('product')
+//       .select('*')
+//       .ilike('productname', `%${query}%`)
+//       .order('id', { ascending: false });
 
-    const data = res.data;
-    data.forEach(result => state.products.push(result));
-    return state.products;
-  } catch (error) {
-    console.error(error);
-  }
-};
+//     const data = res.data;
+//     data.forEach(result => state.products.push(result));
+//     return state.products;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 // Clear the product state
 export const clearStateProduct = function () {
