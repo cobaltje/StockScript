@@ -48,87 +48,102 @@
         </div>
       </div>
       <div class="main">
+        <div class="stockcalcresults hidden">
+          <div class="stockcalcresults-heading">
+            <i class="fa-solid fa-file-export productoverview-title-icon"></i>
+            <span class="stockcalcresults-title"> Result stockchanges</span>
+            <i class="fa-solid fa-circle-xmark stockchange-close"></i>
+          </div>
+          <div class="stockcalcresults-content-overview"></div>
+          <div class="stockcalcresults-content-overview close-btn">
+            <button class="stockchange-close">
+              <i class="fa-solid fa-xmark"></i> Close results
+            </button>
+          </div>
+        </div>
         <div class="productlist">
-          <h1 class="productlist-title">
-            <i class="fa-solid fa-list productlist-title-icon"></i> Product List
-          </h1>
-
-          <div class="productlist-quickactions">
-            <span
-              class="productlist-quickaction action-stockchange action-plus"
-              data-value="10"
-              >+10</span
-            >
-            <span
-              class="productlist-quickaction action-stockchange action-plus"
-              data-value="5"
-              >+5</span
-            >
-            <span
-              class="productlist-quickaction action-stockchange action-plus"
-              data-value="3"
-              >+3</span
-            >
-            <span
-              class="productlist-quickaction action-stockchange action-plus"
-              data-value="2"
-              >+2</span
-            >
-            <span
-              class="productlist-quickaction action-stockchange action-plus"
-              data-value="1"
-              >+1</span
-            >
-            <span
-              class="productlist-quickaction action-stockchange action-minus"
-              data-value="-1"
-              >-1</span
-            >
-            <span
-              class="productlist-quickaction action-stockchange action-minus"
-              data-value="-2"
-              >-2</span
-            >
-            <span
-              class="productlist-quickaction action-stockchange action-minus"
-              data-value="-3"
-              >-3</span
-            >
-            <span
-              class="productlist-quickaction action-stockchange action-minus"
-              data-value="-5"
-              >-5</span
-            >
-            <span
-              class="productlist-quickaction action-stockchange action-minus"
-              data-value="-10"
-              >-10</span
-            >
+          <div class="productlist-heading">
+            <i class="fa-solid fa-list productlist-title-icon"></i>
+            <h1 class="productlist-title">Product List</h1>
           </div>
-
-          <div class="table-functions">
-            <div class="filter-menu hidden">
-              <button class="btn btn-table-function btn_removefilter">
-                <i class="fa-solid fa-filter-circle-xmark"></i> Remove search
-                filter
-              </button>
-              <div class="filter-text"></div>
+          <div class="productlist-content">
+            <div class="productlist-quickactions">
+              <span
+                class="productlist-quickaction action-stockchange action-plus"
+                data-value="10"
+                >+10</span
+              >
+              <span
+                class="productlist-quickaction action-stockchange action-plus"
+                data-value="5"
+                >+5</span
+              >
+              <span
+                class="productlist-quickaction action-stockchange action-plus"
+                data-value="3"
+                >+3</span
+              >
+              <span
+                class="productlist-quickaction action-stockchange action-plus"
+                data-value="2"
+                >+2</span
+              >
+              <span
+                class="productlist-quickaction action-stockchange action-plus"
+                data-value="1"
+                >+1</span
+              >
+              <span
+                class="productlist-quickaction action-stockchange action-minus"
+                data-value="-1"
+                >-1</span
+              >
+              <span
+                class="productlist-quickaction action-stockchange action-minus"
+                data-value="-2"
+                >-2</span
+              >
+              <span
+                class="productlist-quickaction action-stockchange action-minus"
+                data-value="-3"
+                >-3</span
+              >
+              <span
+                class="productlist-quickaction action-stockchange action-minus"
+                data-value="-5"
+                >-5</span
+              >
+              <span
+                class="productlist-quickaction action-stockchange action-minus"
+                data-value="-10"
+                >-10</span
+              >
             </div>
+
+            <div class="table-functions">
+              <div class="filter-menu">
+                <button class="btn btn-table-function btn_removefilter">
+                  <i class="fa-solid fa-filter-circle-xmark"></i> Remove search
+                  filter
+                </button>
+                <div class="filter-text"></div>
+              </div>
+            </div>
+            <table class="product-table">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" id="checkboxall" /></th>
+                  <th>Id <i class="fa-solid fa-caret-up"></i></th>
+                  <th>ProductName</th>
+                  <th>StockLocation</th>
+                  <th>Current Stock</th>
+                  <th>Minimum Stock</th>
+                  <th>Maximum Stock</th>
+                </tr>
+              </thead>
+              <tbody class="product-table-data"></tbody>
+            </table>
           </div>
-          <table class="product-table">
-            <thead>
-              <tr>
-                <th><input type="checkbox" id="checkboxall" /></th>
-                <th>Id <i class="fa-solid fa-caret-up"></i></th>
-                <th>ProductName</th>
-                <th>StockLocation</th>
-                <th>Current Stock</th>
-                <th>Minimum Stock</th>
-                <th>Maximum Stock</th>
-              </tr>
-            </thead>
-            <tbody class="product-table-data"></tbody>
-          </table>
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@ import View from './View';
 import productListView from './productListView';
 
 class ProductsView extends View {
-  renderProducts(products, query) {
+  renderProducts(products, query = '') {
     const productsToRender = [];
     if (query !== '') {
       products.map(product => {
@@ -22,7 +22,7 @@ class ProductsView extends View {
   displayFilterButton(query) {
     const menu = document.querySelector('.filter-menu');
     const filterTxt = document.querySelector('.filter-text');
-    menu.classList.remove('hidden');
+    menu.style.visibility = 'visible';
     filterTxt.innerHTML = `<i class="fa-solid fa-tag"></i> ${query}`;
   }
 }

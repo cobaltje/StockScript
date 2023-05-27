@@ -18,6 +18,7 @@ export const loadProducts = async function () {
       .select('*')
       .order('id', { ascending: false });
     const data = res.data;
+
     data.forEach(product => state.products.push(product));
     return state.products;
   } catch (error) {
@@ -64,10 +65,11 @@ export const deleteProduct = async function (productId) {
 // Update stock
 export const updateProductStock = async function (productId, newStock) {
   try {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('product')
       .update({ stock: newStock })
-      .eq('id', productId);
+      .eq('id', productId)
+      .select();
   } catch (error) {
     console.error(error);
   }

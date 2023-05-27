@@ -7,6 +7,11 @@ class ProductView extends View {
 
   addHandlerProductView(handler) {
     this._parentTableElement.addEventListener('click', function (e) {
+      const selectedRow = e.target.closest('tr');
+      selectedRow.classList.add('selected'); // HIER VERDER DOEN
+      // https://stackoverflow.com/questions/24750623/select-a-row-from-html-table-and-send-values-onclick-of-a-button
+      console.log(selectedRow);
+
       const selectedProduct = Number(e.target.closest('tr').dataset.productid);
       if (isNaN(selectedProduct)) return;
       this._selectedProductId = selectedProduct;
@@ -18,12 +23,11 @@ class ProductView extends View {
     if (windowActive) {
       document.querySelector('.productoverview').remove();
     }
-    console.log(data);
+
     this._data = data;
-    const markup = this._generateMarkup(data);
+    const markup = this._generateMarkup(); // REMOVED DATA
     if (!render) return markup;
     this._parentElement.insertAdjacentHTML('afterend', markup);
-    // Generate event listeners
   }
 
   _generateMarkup() {
@@ -59,8 +63,8 @@ class ProductView extends View {
             <span class="productoverview-action stock-action action-stock-remove" data-id="${this._data.id}" data-productname="${this._data.productname}"><i class="fa-solid fa-circle-minus"></i> Remove stock</span>
             </div>
 
-            <span class="product-subtitle"
-              ><i class="fa-solid fa-clipboard"></i> Product Details</span
+            <div class="product-subtitle"
+              ><i class="fa-solid fa-clipboard productoverview-title-icon"></i> Product Details</div
             >
             <table class="productoverview-table">
               <tr>

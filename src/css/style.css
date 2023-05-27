@@ -31,6 +31,9 @@ body {
 
 .productlist {
   flex: 1 1;
+}
+
+.productlist-content {
   padding: 15px;
 }
 
@@ -41,13 +44,14 @@ body {
 
 .productlist-heading {
   display: flex;
-  justify-content: space-between;
+  gap: 15px;
   margin-bottom: 10px;
 }
 
 .productlist-title-icon,
 .productoverview-title-icon,
-.product-close {
+.product-close,
+.stockchange-close {
   background-color: #25254e;
   font-size: 16px;
   padding: 10px;
@@ -55,11 +59,13 @@ body {
   color: #9b9cff;
 }
 
-.product-close {
+.product-close,
+.stockchange-close {
   cursor: pointer;
 }
 
-.product-close:hover {
+.product-close:hover,
+.stockchange-close:hover {
   background-color: #43439d;
 }
 
@@ -282,7 +288,7 @@ body {
 
 .productoverview {
   background-color: #eeeeff;
-  flex: 0 1 450px;
+  flex: 0 1 400px;
   height: calc(100vh -175px);
   border-radius: 0px 0px 15px 0px;
 }
@@ -301,6 +307,16 @@ body {
   justify-content: center;
   gap: 5px;
   margin-bottom: 25px;
+}
+
+.product-subtitle {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #bebee169;
+  border-radius: 15px;
+  font-size: 20px;
 }
 
 /* PRODUCT OVERVIEW TABLE */
@@ -415,6 +431,7 @@ td .img-productname {
 .filter-menu {
   display: flex;
   gap: 5px;
+  visibility: hidden;
 }
 
 .filter-text {
@@ -485,4 +502,65 @@ td .img-productname {
 .notification_lowstock {
   font-size: 24px !important;
   text-align: center;
+}
+
+.stockcalcresults {
+  flex: 1 1;
+  border-radius: 0 0 0 15px;
+}
+
+.stockcalcresults-title {
+  font-size: 24px;
+  color: #25254e;
+}
+
+.stockcalcresults-heading {
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #bebee1b9;
+}
+
+.productlist-heading {
+  padding: 15px;
+  display: flex;
+
+  align-items: center;
+  background-color: #bebee1b9;
+}
+
+.stockcalcresults-content {
+  border-radius: 15px;
+  padding: 5px;
+  margin-bottom: 15px;
+}
+
+.stockcalcresults-content-overview {
+  padding: 15px;
+  list-style: none;
+  font-size: 16px;
+}
+
+.stockcalcresults-content-overview ul {
+  list-style: inside;
+  color: #43439d;
+  padding: 15px;
+}
+
+.stockcalcresults-content-content-message {
+  padding: 5px;
+}
+
+.icon-succesfull {
+  color: green;
+}
+
+.icon-failed {
+  color: red;
+}
+
+.icon-min,
+.icon-max {
+  color: #43439d;
 }

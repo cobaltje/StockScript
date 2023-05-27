@@ -6,29 +6,31 @@ import searchView from './views/searchView.js';
 import resetListView from './views/resetListView.js';
 import productView from './views/productView.js';
 import productsView from './views/productsView.js';
+import stockChangeView from './views/stockChangeView.js';
 import eventListenerView from './views/eventListenerView.js';
 import 'core-js/stable';
-import { clearStateProduct } from './model';
+
 import Swal from 'sweetalert2';
 
 // Get a full dump from the products out of the database
 const productListResults = async function () {
   try {
     // 1) Clear previous results
-    productListView._clear();
     productLowView._clear();
-    clearStateProduct();
+    model.clearStateProduct();
     document.querySelector('#checkboxall').checked = false;
 
     // 2) Load Results
     await model.loadProducts();
     const products = model.state.products;
 
-    // 3) Render Results
+    // 3) Clear list before re-adding the products (This prevent flickering if we do this after the db call)
+    productListView._clear();
+    // 4) Render Results
     const query = model.state.search.query;
     productsView.renderProducts(products, query);
 
-    // 4) Look for products low on stock
+    // 5) Look for products low on stock
     productLowView.controlLowOnStock(products);
   } catch (error) {
     console.error(`💥${error}`);
@@ -37,44 +39,48 @@ const productListResults = async function () {
 
 // Filter the results based on the given query
 const controlSearchResults = function () {
-  try {
-    // 1) Get Search Query
-    const query = (model.state.search.query = searchView.getQuery());
-    if (!query);
+  // 1) Get Search Query
+  const query = (model.state.search.query = searchView.getQuery());
+  if (!query);
 
-    // 2) Empty table & clear input
-    productListView._clear();
-    document.querySelector('#checkboxall').checked = false;
+  // 2) Empty table & clear input
+  productListView._clear();
+  document.querySelector('#checkboxall').checked = false;
 
-    // 3) Render results based on query
-    model.state.products.map(product => {
-      if (product.productname.toLowerCase().includes(query))
-        productListView.renderList(product);
-    });
+  // 3) Render results based on query
+  model.state.products.map(product => {
+    if (product.productname.toLowerCase().includes(query))
+      productListView.renderList(product);
+  });
 
-    // 5) Display Remove filter button
-    productsView.displayFilterButton(query);
-  } catch (error) {
-    console.error(`💥${error}`);
-  }
+  // 5) Display Remove filter button
+  productsView.displayFilterButton(query);
 };
 
+// Reset the filterd productlist to all products
 const resetListResults = function () {
-  productListResults();
+  // 1) Set Query state to empy string
   model.state.search.query = '';
-  const menu = document.querySelector('.filter-menu');
-  const filterTxt = document.querySelector('.filter-text');
-  filterTxt.innerHTML = '';
-  menu.classList.add('hidden');
+
+  // 2) Remove the filter btn and tag
+  resetListView.removeFilterBtnAndTag();
+
+  // 3) Clear the list
+  productListView._clear();
+
+  // 3) Render the full productlist
+  const products = model.state.products;
+  productsView.renderProducts(products);
 };
 
 const controlProductView = function (selectedProduct) {
+  console.log(selectedProduct);
   // 1) Get Product from State
-  console.log(model.state.products);
   const product = model.state.products.find(
     product => product.id === selectedProduct
   );
 
+  // 2) Render productView
   const productWindowActive = model.state.activeProduct;
   productView.renderProductView(product, productWindowActive);
   model.state.activeProduct = true;
@@ -82,6 +88,7 @@ const controlProductView = function (selectedProduct) {
 };
 
 const controlActions = function (event) {
+  console.log(event.target);
   // Product Action DELETE
   if (event.target.matches('.action-delete')) {
     const productId = Number(event.target.dataset.id);
@@ -93,6 +100,16 @@ const controlActions = function (event) {
   if (event.target.matches('.product-close')) {
     document.querySelector('.productoverview').remove();
     model.state.activeProduct = '';
+  }
+
+  // Close stockchanges results
+  if (event.target.matches('.stockchange-close')) {
+    console.log('her');
+    const stockCalcResultsElement = document.querySelector('.stockcalcresults');
+    const productTableElement = document.querySelector('.productlist');
+
+    stockCalcResultsElement.classList.add('hidden');
+    productTableElement.classList.remove('hidden');
   }
 
   // CheckSelectProducts
@@ -113,7 +130,7 @@ const controlActions = function (event) {
 
   // Create New Product
   if (event.target.matches('.addproduct')) {
-    addProduct();
+    console.log('CODE NOT READY YET');
   }
 };
 
@@ -151,47 +168,47 @@ const stockCalculation = async function (products, quantity) {
   // Arrays for final results
   const productValid = [];
   const productInvalid = [];
-  const productMax = [];
   const productMin = [];
+  const productMax = [];
 
-  // Update stock for selected products
-  products.forEach(async function (product, i) {
-    // Set the new stock quantity
-    const newQty = Number(product.stock) + Number(quantity);
+  await Promise.all(
+    products.map(async function (product) {
+      // Set the new stock quantity
+      const newQty = Number(product.stock) + Number(quantity);
 
-    // Update the stock in the database
-    if (newQty >= 0) {
-      productValid.push(product.productname);
-      await model.updateProductStock(Number(product.id), newQty);
+      // Update the stock in the database
+      if (newQty >= 0) {
+        productValid.push(product.productname);
+        await model.updateProductStock(Number(product.id), newQty);
 
-      // Add a movement to the database
-      await model.addMovement(product.id, product.stock, quantity, newQty);
-    }
+        // Add a movement to the database
+        await model.addMovement(product.id, product.stock, quantity, newQty);
+      }
 
-    // If newQty would be lower then 0 add them to the array and don't update stock
-    if (newQty < 0) productInvalid.push(product.productname);
+      // If newQty would be lower than 0, add them to the array and don't update stock
+      if (newQty < 0) productInvalid.push(product.productname);
 
-    // If newQty is bigger then the maxstock add them to the array
-    if (newQty > product.maxstock) productMax.push(product.productname);
+      // If newQty is bigger than the maxstock, add them to the array
+      if (newQty > product.maxstock) productMax.push(product.productname);
 
-    // If newQty is lower or equal then the minstock add them to the array
-    if (newQty <= product.minstock) productMin.push(product.productname);
+      // If newQty is lower or equal to the minstock, add them to the array
+      if (newQty <= product.minstock) productMin.push(product.productname);
+    })
+  );
 
-    // If we reach the last product => End and refresh the list
-    if (i === products.length - 1) {
-      // if (model.state.search.query) return controlResetResultsWithSearch();
-      console.log(model.state);
-      productListResults();
-    }
-  });
-};
+  // All promises are fulfilled, call productListResults
+  await productListResults();
+  // Refresh product sideview if open
+  if (model.state.activeProductId)
+    controlProductView(model.state.activeProductId);
 
-const stockCalcErorr = function (productName, error) {
-  Swal.fire({
-    icon: 'error',
-    title: 'Oops...',
-    text: `There is not enough stock for ${productName}!`,
-  });
+  // ResultsModal
+  stockChangeView.createResultsScreen(
+    productValid,
+    productInvalid,
+    productMin,
+    productMax
+  );
 };
 
 /* CheckList All */
@@ -204,65 +221,14 @@ checkboxAll.addEventListener('click', function (e) {
     : checkBoxes.forEach(checkbox => (checkbox.checked = false));
 });
 
-/* New Product */
-
-const addProduct = async function () {
-  const { value: newProduct } = await Swal.fire({
-    title: 'Add product',
-    html:
-      '<input id="newprod-productname" class="swal2-input" placeholder="Productname">' +
-      '<input id="newprod-stocklocation" class="swal2-input" placeholder="Stocklocation">' +
-      '<input id="newprod-image" type="url" class="swal2-input" placeholder="URL Image">' +
-      '<input id="newprod-stock" type="number" class="swal2-input" placeholder="Stock">' +
-      '<input id="newprod-minstock" type="number" class="swal2-input" placeholder="Minimum stock">' +
-      '<input id="newprod-maxstock" type="number" class="swal2-input" placeholder="Maximum stock">',
-    focusConfirm: false,
-    preConfirm: () => {
-      return [
-        document.getElementById('newprod-productname').value,
-        document.getElementById('newprod-stocklocation').value,
-        document.getElementById('newprod-image').value,
-        document.getElementById('newprod-stock').value,
-        document.getElementById('newprod-minstock').value,
-        document.getElementById('newprod-maxstock').value,
-      ];
-    },
-  });
-
-  if (newProduct) {
-    const result = await model.addProduct(newProduct);
-
-    // Error
-    if (result)
-      return Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: `${result}`,
-      });
-
-    // Success
-    console.log('test');
-    return Swal.fire({
-      title: `${document.getElementById('newprod-productname').value}`,
-      text: 'Product has been added!',
-      imageUrl: `${document.getElementById('newprod-image').value}`,
-      imageWidth: 200,
-      imageHeight: 200,
-      imageAlt: 'ProductImage',
-    });
-  }
-};
-
-// /**** */
-
-const init = function () {
+// Initialisation
+const init = (function () {
   productListResults();
   searchView.addHandlerSearch(controlSearchResults);
   resetListView.addHandlerResetList(resetListResults);
   productView.addHandlerProductView(controlProductView);
   eventListenerView.actionEventListeners(controlActions);
-};
+})();
 
-init();
-
+// Export function
 export { controlActions };
