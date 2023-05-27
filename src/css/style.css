@@ -202,7 +202,7 @@ body {
   color: #ffffff;
 }
 
-.product-table {
+table {
   border-collapse: collapse;
   margin: 25px 0;
   font-size: 0.5em;
@@ -214,47 +214,47 @@ body {
   /*box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);*/
 }
 
-.product-table thead tr {
+table thead tr {
   background-color: #5b5cb5;
   color: #ffffff;
   text-align: left;
 }
 
-.product-table th,
-.product-table td {
+th,
+td {
   padding: 12px 15px;
 }
 
-.product-table tbody tr {
+tbody tr {
   border-bottom: 1px solid #dddddd;
   cursor: pointer;
 }
 
-.product-table tbody tr:nth-of-type(even) {
+tbody tr:nth-of-type(even) {
   background-color: #f3f3f3;
 }
 
-.product-table tbody tr:last-of-type {
+tbody tr:last-of-type {
   border-bottom: 2px solid #5b5cb5;
 }
 
-.product-table tbody tr:hover {
+tbody tr:hover {
   color: #5b5cb5;
 
   background-color: #eeeeff;
 }
 
-.product-table tbody .productrow-warning {
+tbody .productrow-warning {
   background-color: #f37a08;
   color: #fff;
 }
 
-.product-table tbody .productrow-warning:nth-of-type(even) {
+tbody .productrow-warning:nth-of-type(even) {
   background-color: #f9973c;
   color: #fff;
 }
 
-.product-table tbody .productrow-warning:hover {
+tbody .productrow-warning:hover {
   background-color: #d46905;
   color: #ffffff;
 }
