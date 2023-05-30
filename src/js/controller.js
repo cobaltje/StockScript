@@ -7,6 +7,7 @@ import resetListView from './views/resetListView.js';
 import productView from './views/productView.js';
 import productsView from './views/productsView.js';
 import stockChangeView from './views/stockChangeView.js';
+import movementsView from './views/movementsView.js';
 import eventListenerView from './views/eventListenerView.js';
 import 'core-js/stable';
 
@@ -74,7 +75,6 @@ const resetListResults = function () {
 };
 
 const controlProductView = function (selectedProduct) {
-  console.log(selectedProduct);
   // 1) Get Product from State
   const product = model.state.products.find(
     product => product.id === selectedProduct
@@ -88,7 +88,6 @@ const controlProductView = function (selectedProduct) {
 };
 
 const controlActions = function (event) {
-  console.log(event.target);
   // Product Action DELETE
   if (event.target.matches('.action-delete')) {
     const productId = Number(event.target.dataset.id);
@@ -102,14 +101,27 @@ const controlActions = function (event) {
     model.state.activeProduct = '';
   }
 
-  // Close stockchanges results
+  // Render movements
+  if (event.target.matches('.action-movements')) {
+    renderMovements();
+  }
+
   if (event.target.matches('.stockchange-close')) {
-    console.log('her');
+    // Close stockchanges results
     const stockCalcResultsElement = document.querySelector('.stockcalcresults');
     const productTableElement = document.querySelector('.productlist');
 
     stockCalcResultsElement.classList.add('hidden');
     productTableElement.classList.remove('hidden');
+  }
+
+  if (event.target.matches('.movements-close')) {
+    // Close stockchanges results
+    const productTableElement = document.querySelector('.productlist');
+    const movementsTableElement = document.querySelector('.movements');
+
+    productTableElement.classList.remove('hidden');
+    movementsTableElement.classList.add('hidden');
   }
 
   // CheckSelectProducts
@@ -132,6 +144,19 @@ const controlActions = function (event) {
   if (event.target.matches('.addproduct')) {
     console.log('CODE NOT READY YET');
   }
+};
+
+const renderMovements = async function () {
+  const movements = await model.getMovements();
+  movementsView._clear();
+  movementsView.renderMovements(movements);
+  const stockCalcResultsElement = document.querySelector('.stockcalcresults');
+  const productTableElement = document.querySelector('.productlist');
+  const movementsTableElement = document.querySelector('.movements');
+
+  stockCalcResultsElement.classList.add('hidden');
+  productTableElement.classList.add('hidden');
+  movementsTableElement.classList.remove('hidden');
 };
 
 const deleteSelectedProduct = function (productId, productName) {
@@ -189,10 +214,17 @@ const stockCalculation = async function (products, quantity) {
       if (newQty < 0) productInvalid.push(product.productname);
 
       // If newQty is bigger than the maxstock, add them to the array
-      if (newQty > product.maxstock) productMax.push(product.productname);
 
-      // If newQty is lower or equal to the minstock, add them to the array
-      if (newQty <= product.minstock) productMin.push(product.productname);
+      if (newQty > product.maxstock && product.stock < product.maxstock)
+        productMax.push(product.productname);
+
+      // If newQty is lower or equal to the minstock, add them to the array - Don't add when stock hasn't changed
+      if (
+        newQty <= product.minstock &&
+        newQty >= 0 &&
+        product.stock > product.minstock
+      )
+        productMin.push(product.productname);
     })
   );
 
@@ -202,7 +234,7 @@ const stockCalculation = async function (products, quantity) {
   if (model.state.activeProductId)
     controlProductView(model.state.activeProductId);
 
-  // ResultsModal
+  // ResultsScreen
   stockChangeView.createResultsScreen(
     productValid,
     productInvalid,

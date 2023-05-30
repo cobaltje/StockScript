@@ -10,7 +10,6 @@ class ProductView extends View {
       const selectedRow = e.target.closest('tr');
       selectedRow.classList.add('selected'); // HIER VERDER DOEN
       // https://stackoverflow.com/questions/24750623/select-a-row-from-html-table-and-send-values-onclick-of-a-button
-      console.log(selectedRow);
 
       const selectedProduct = Number(e.target.closest('tr').dataset.productid);
       if (isNaN(selectedProduct)) return;

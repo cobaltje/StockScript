@@ -51,9 +51,38 @@
             <i class="fa-solid fa-gear settings"></i>
             <span class="nav nav-txt nav-txt-settings settings"> Settings</span>
           </button>
+          <button class="btn btn_user user">
+            <i class="fa-solid fa-user settings"></i>
+            <span class="nav nav-txt nav-txt-user user"> User</span>
+          </button>
         </div>
       </div>
       <div class="main">
+        <div class="movements hidden">
+          <div class="movements-heading">
+            <i class="fa-solid fa-file-export productoverview-title-icon"></i>
+            <span class="movements-title"> Movements</span>
+            <i class="fa-solid fa-circle-xmark movements-close"></i>
+          </div>
+          <div class="movements-content-overview">
+            <table class="movements-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Prev Stock</th>
+                  <th>Stock changed</th>
+                  <th>New Stock</th>
+                </tr>
+              </thead>
+              <tbody class="movements-table-data"></tbody>
+            </table>
+          </div>
+          <div class="movements-content-overview close-btn">
+            <button class="movements-close">
+              <i class="fa-solid fa-xmark"></i> Close movements
+            </button>
+          </div>
+        </div>
         <div class="stockcalcresults hidden">
           <div class="stockcalcresults-heading">
             <i class="fa-solid fa-file-export productoverview-title-icon"></i>

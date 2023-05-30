@@ -4,6 +4,7 @@ export const state = {
   products: [],
   activeProduct: false,
   activeProductId: 0,
+  activeMovements: [],
   search: {
     query: '',
   },
@@ -25,25 +26,6 @@ export const loadProducts = async function () {
     console.log(error);
   }
 };
-
-// Loading the search results
-// export const loadSearchResults = async function (query) {
-//   try {
-//     state.products = [];
-//     state.search.query = query;
-//     const res = await supabase
-//       .from('product')
-//       .select('*')
-//       .ilike('productname', `%${query}%`)
-//       .order('id', { ascending: false });
-
-//     const data = res.data;
-//     data.forEach(result => state.products.push(result));
-//     return state.products;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
 
 // Clear the product state
 export const clearStateProduct = function () {
@@ -92,6 +74,22 @@ export const addMovement = async function (
   } catch (error) {
     console.error(error);
   }
+};
+
+// Get movements
+
+export const getMovements = async function () {
+  try {
+    state.activeMovements = [];
+    const res = await supabase
+      .from('movement')
+      .select('*')
+      .order('created_at', { ascending: true })
+      .eq('productid', state.activeProductId);
+    const data = res.data;
+    data.forEach(movement => state.activeMovements.push(movement));
+    return state.activeMovements;
+  } catch (error) {}
 };
 
 // Add product

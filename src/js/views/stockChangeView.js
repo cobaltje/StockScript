@@ -40,7 +40,7 @@ class stockChangeView extends View {
     if (max.length > 0)
       this._generateMarkupStatus(this._messageMax, 'Max', 'fa-maximize', max);
 
-    // Switch to stock results screen
+    // Switch to stockchanges results screen
     this._stockCalcResultsElement.classList.remove('hidden');
     this._productTableElement.classList.add('hidden');
   }

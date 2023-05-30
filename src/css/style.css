@@ -51,7 +51,8 @@ body {
 .productlist-title-icon,
 .productoverview-title-icon,
 .product-close,
-.stockchange-close {
+.stockchange-close,
+.movements-close {
   background-color: #25254e;
   font-size: 16px;
   padding: 10px;
@@ -60,12 +61,14 @@ body {
 }
 
 .product-close,
-.stockchange-close {
+.stockchange-close,
+.movements-close {
   cursor: pointer;
 }
 
 .product-close:hover,
-.stockchange-close:hover {
+.stockchange-close:hover,
+.movements-close:hover {
   background-color: #43439d;
 }
 
@@ -111,7 +114,7 @@ body {
 
 .search-field {
   height: 50px;
-  width: 400px;
+  width: 300px;
   padding-left: 25px;
   border: none;
   border-radius: 25px;
@@ -186,6 +189,10 @@ body {
   margin-top: 5px;
 }
 
+.btn_lowonstock .btn {
+  background-color: #ec9a1e;
+}
+
 /* PRODUCT TABLE */
 
 .btn-table-function {
@@ -205,7 +212,7 @@ body {
 table {
   border-collapse: collapse;
   margin: 25px 0;
-  font-size: 0.5em;
+  font-size: 12px;
   font-family: sans-serif;
   width: 100%;
   min-width: 950px;
@@ -451,10 +458,11 @@ td .img-productname {
   visibility: hidden;
   opacity: 0;
   top: 180px;
+  margin-left: 40px;
   background-color: #d2d2fc;
-  width: 305px;
+  width: 350px;
   position: absolute;
-  transition: all 0.5s 0.2s;
+  transition: all 0.2s 0.2s;
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 0.8rem 5rem 2rem #61555150;
@@ -504,17 +512,20 @@ td .img-productname {
   text-align: center;
 }
 
-.stockcalcresults {
+.stockcalcresults,
+.movements {
   flex: 1 1;
   border-radius: 0 0 0 15px;
 }
 
-.stockcalcresults-title {
+.stockcalcresults-title,
+.movements-tittle {
   font-size: 24px;
   color: #25254e;
 }
 
-.stockcalcresults-heading {
+.stockcalcresults-heading,
+.movements-heading {
   padding: 15px;
   display: flex;
   justify-content: space-between;
@@ -530,13 +541,15 @@ td .img-productname {
   background-color: #bebee1b9;
 }
 
-.stockcalcresults-content {
+.stockcalcresults-content,
+.movements-content {
   border-radius: 15px;
   padding: 5px;
   margin-bottom: 15px;
 }
 
-.stockcalcresults-content-overview {
+.stockcalcresults-content-overview,
+.movements-content-overview {
   padding: 15px;
   list-style: none;
   font-size: 16px;
