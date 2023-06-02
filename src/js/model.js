@@ -110,3 +110,21 @@ export const addProduct = async function (newProduct) {
     console.error(error);
   }
 };
+
+// Update Product
+export const updateProduct = async function (product) {
+  try {
+    const { error } = await supabase
+      .from('product')
+      .update({
+        productname: product.productname,
+        stocklocation: product.stocklocation,
+        imageurl: product.imageurl,
+        minimumstock: product.minimumstock,
+        maximumstock: product.maximumstock,
+      })
+      .eq('id', product.id);
+  } catch (error) {
+    console.error(error);
+  }
+};

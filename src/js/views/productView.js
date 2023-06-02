@@ -1,4 +1,5 @@
 import View from './View';
+import { state } from '../model';
 
 class ProductView extends View {
   _parentElement = document.querySelector('.productlist');
@@ -27,6 +28,73 @@ class ProductView extends View {
     const markup = this._generateMarkup(); // REMOVED DATA
     if (!render) return markup;
     this._parentElement.insertAdjacentHTML('afterend', markup);
+  }
+
+  editProduct(product) {
+    const table = document.querySelector('.productoverview-table');
+    table.innerHTML = '';
+    const markup = this._generateMarkupEdit();
+
+    table.insertAdjacentHTML('beforeend', markup);
+  }
+
+  updateProduct() {
+    const productArr = state.products;
+    console.log(productArr);
+    const index = productArr.findIndex(
+      product => product.id === state.activeProductId
+    );
+    console.log(productArr[index]);
+    // QSelectors
+    const productName = document.querySelector('#productname').value;
+    const stockLocation = document.querySelector('#stocklocation').value;
+    const minimumStock = document.querySelector('#minimumstock').value;
+    const maximumStock = document.querySelector('#maximumstock').value;
+
+    // Update
+    const product = productArr[index];
+
+    product.productname = productName;
+    product.stocklocation = stockLocation;
+    product.minimumstock = Number(minimumStock);
+    product.maximumstock = Number(maximumStock);
+    return productArr[index];
+  }
+
+  _generateMarkupEdit() {
+    return `
+    <tr>
+      <th>Product</th>
+      <td><input class="editproductinput" type="text" id="productname" value="${this._data.productname}"></td>
+    </tr>
+    <tr>
+      <th>StockLocation</th>
+      <td><input class="editproductinput" type="text" id="stocklocation" value="${this._data.stocklocation}"></td>
+    </tr>
+    <tr>
+      <th>Current Stock</th>
+      <td>${this._data.stock}</td>
+    </tr>
+    <tr>
+      <th>Minimum Stock</th>
+      <td><input class="editproductinput" type="number" id="minimumstock" value="${this._data.minimumstock}"></td>
+    </tr>
+    <tr>
+      <th>Maximum Stock</th>
+      <td><input class="editproductinput" type="number" id="maximumstock" value="${this._data.maximumstock}"></td>
+    </tr>
+    <tr>
+      <th>Actions</th>
+      <td>
+        <button class="save-editbtn">
+        <i class="fa-solid fa-xmark"></i> Save
+        </button>
+        <button  class="cancel-editbtn">
+        <i class="fa-solid fa-xmark"></i> Cancel
+        </button>
+      </td>
+    </tr>
+    `;
   }
 
   _generateMarkup() {

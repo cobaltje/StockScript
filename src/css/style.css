@@ -565,15 +565,51 @@ td .img-productname {
   padding: 5px;
 }
 
-.icon-succesfull {
-  color: green;
+.icon-succesfull,
+.icon-green {
+  color: rgb(0, 189, 0);
 }
 
-.icon-failed {
+.icon-failed,
+.icon-red {
   color: red;
 }
 
 .icon-min,
 .icon-max {
   color: #43439d;
+}
+
+.editproductinput {
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  background-color: #2f3080f5;
+  color: #fff;
+}
+
+.save-editbtn {
+  background-color: #b2f6d2;
+  color: #25254e;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.cancel-editbtn {
+  background-color: #f6b2c2;
+  color: #25254e;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.save-editbtn:hover {
+  background-color: #27f186;
+}
+
+.cancel-editbtn:hover {
+  background-color: #c7687e;
 }

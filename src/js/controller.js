@@ -1,4 +1,3 @@
-import { supabase } from '/src/js/supabase.js';
 import * as model from './model.js';
 import productListView from './views/productListView.js';
 import productLowView from './views/productLowView.js';
@@ -88,6 +87,7 @@ const controlProductView = function (selectedProduct) {
 };
 
 const controlActions = function (event) {
+  console.log(event.target);
   // Product Action DELETE
   if (event.target.matches('.action-delete')) {
     const productId = Number(event.target.dataset.id);
@@ -104,6 +104,14 @@ const controlActions = function (event) {
   // Render movements
   if (event.target.matches('.action-movements')) {
     renderMovements();
+  }
+
+  if (event.target.matches('.action-edit')) {
+    editProduct();
+  }
+
+  if (event.target.matches('.save-editbtn')) {
+    saveEditProduct();
   }
 
   if (event.target.matches('.stockchange-close')) {
@@ -157,6 +165,21 @@ const renderMovements = async function () {
   stockCalcResultsElement.classList.add('hidden');
   productTableElement.classList.add('hidden');
   movementsTableElement.classList.remove('hidden');
+};
+
+const editProduct = function () {
+  const product = model.state.products.find(
+    product => product.id === model.state.activeProductId
+  );
+  productView.editProduct(product);
+};
+
+const saveEditProduct = async function () {
+  // Update product in State
+  const index = productView.updateProduct();
+  await model.updateProduct(index);
+  controlProductView(model.state.activeProductId);
+  productListResults();
 };
 
 const deleteSelectedProduct = function (productId, productName) {
