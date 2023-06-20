@@ -7,6 +7,7 @@ import productView from './views/productView.js';
 import productsView from './views/productsView.js';
 import stockChangeView from './views/stockChangeView.js';
 import movementsView from './views/movementsView.js';
+import newProductView from './views/newProductView.js';
 import eventListenerView from './views/eventListenerView.js';
 import 'core-js/stable';
 
@@ -150,7 +151,8 @@ const controlActions = function (event) {
 
   // Create New Product
   if (event.target.matches('.addproduct')) {
-    console.log('CODE NOT READY YET');
+    const productWindowActive = model.state.activeProduct;
+    newProductView.renderNewProductView(productWindowActive);
   }
 };
 
@@ -202,7 +204,7 @@ const deleteSelectedProduct = function (productId, productName) {
         Swal.fire('Deleted!', `${productName} has been deleted.`, 'success');
 
         // Reset
-        resetListResults();
+        productListResults();
         document.querySelector('.productoverview').remove();
         model.state.activeProduct = '';
       } catch (error) {

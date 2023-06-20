@@ -588,6 +588,11 @@ td .img-productname {
   color: #fff;
 }
 
+.editproductinput:hover,
+.editproductinput:focus {
+  background-color: #474addf5;
+}
+
 .save-editbtn {
   background-color: #b2f6d2;
   color: #25254e;

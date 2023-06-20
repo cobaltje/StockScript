@@ -35,7 +35,7 @@ class ProductListView extends View {
     }" data-minstock="${this._data.minimumstock}" data-maxstock="${
       this._data.maximumstock
     }"/></td>
-      <td>${this._data.id}</td>
+      
       <td><span class="img-productname"><img
       src="${this._data.imageurl}"
       alt="${this._data.productname}"

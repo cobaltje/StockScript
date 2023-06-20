@@ -48,6 +48,7 @@ class ProductView extends View {
     // QSelectors
     const productName = document.querySelector('#productname').value;
     const stockLocation = document.querySelector('#stocklocation').value;
+    const imgURL = document.querySelector('#imageurl').value;
     const minimumStock = document.querySelector('#minimumstock').value;
     const maximumStock = document.querySelector('#maximumstock').value;
 
@@ -56,9 +57,10 @@ class ProductView extends View {
 
     product.productname = productName;
     product.stocklocation = stockLocation;
+    product.imageurl = imgURL;
     product.minimumstock = Number(minimumStock);
     product.maximumstock = Number(maximumStock);
-    return productArr[index];
+    return product;
   }
 
   _generateMarkupEdit() {
@@ -68,9 +70,17 @@ class ProductView extends View {
       <td><input class="editproductinput" type="text" id="productname" value="${this._data.productname}"></td>
     </tr>
     <tr>
+    <th>ProductId</th>
+    <td>${this._data.id}</td>
+  </tr>
+    <tr>
       <th>StockLocation</th>
       <td><input class="editproductinput" type="text" id="stocklocation" value="${this._data.stocklocation}"></td>
     </tr>
+    <tr>
+    <th>Picture</th>
+    <td><input class="editproductinput" type="url" id="imageurl" value="${this._data.imageurl}"></td>
+  </tr>
     <tr>
       <th>Current Stock</th>
       <td>${this._data.stock}</td>
@@ -138,6 +148,10 @@ class ProductView extends View {
                 <th>Product</th>
                 <td>${this._data.productname}</td>
               </tr>
+              <tr>
+              <th>ProductId</th>
+              <td>${this._data.id}</td>
+            </tr>
               <tr>
                 <th>StockLocation</th>
                 <td>${this._data.stocklocation}</td>
